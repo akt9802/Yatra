@@ -3,6 +3,7 @@ dotenv.config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const cookieParser = require('cookie-parser')
 const connectToDb = require('./db/db.js');
 
 // importing routes
@@ -12,7 +13,8 @@ connectToDb();
 
 app.use(cors());    // we are accepting request from every website 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));4
+app.use(express.urlencoded({extended: true}));
+app.use(cookieParser())
 
 
 app.use('/users',userRoutes)
