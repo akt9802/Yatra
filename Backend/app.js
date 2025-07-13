@@ -7,7 +7,8 @@ const cookieParser = require('cookie-parser')
 const connectToDb = require('./db/db.js');
 
 // importing routes
-const userRoutes = require('./routes/user.routes.js')
+const userRoutes = require('./routes/user.routes.js');
+const driverRoutes = require('./routes/driver.routes.js');
 
 connectToDb();
 
@@ -18,6 +19,7 @@ app.use(cookieParser())
 
 
 app.use('/users',userRoutes)
+app.use('/drivers',driverRoutes)
 
 
 

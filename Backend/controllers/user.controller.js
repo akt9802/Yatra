@@ -12,6 +12,16 @@ module.exports.registerUser = async (req, res, next) => {
 
   const { fullname, email, password } = req.body;
   // this password -> lets hash it
+
+  const isUserAllreadyExist = await userModel.findOne({
+    email
+  });
+  if(isUserAllreadyExist){
+    return res.staus(400).json({
+      message : "user allready exist"
+    })
+  };
+
   const hashedPassword = await userModel.hashPassword(password);
 
   const user = await userService.createUser({
@@ -69,7 +79,7 @@ module.exports.getUserProfile = async (req,res,next) => {
 
 module.exports.logoutUser = async (req,res,next) => {
   res.clearCookie('token');
-  const token = req.cookies.token || req.headers.authorization.split(' ')[1];
+  const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
 
   await blacklistTokenModel.create({token});
 
