@@ -5,9 +5,8 @@ const blackListTokenModel = require('../models/blacklistToken.model.js')
 module.exports.registerDriver = async (req, res, next) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
-    return res.status(400).json({
-      error: error.array(),
-    });
+    console.log("Validation error:", error.array());
+    return res.status(400).json({ error: error.array() });
   }
   const { fullname, email, password, vehicle } = req.body;
 

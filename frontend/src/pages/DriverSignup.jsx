@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-
+import { DriverDataContext } from "../context/DriverContext.jsx";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const DriverSignup = () => {
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,11 +16,12 @@ const DriverSignup = () => {
   const [vehicleCapacity, setVehicleCapacity] = useState("");
   const [vehicleType, setVehicleType] = useState("");
 
+  const { driver, setDriver } = React.useContext(DriverDataContext);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     const DriverData = {
-      fullName: {
+      fullname: {
         firstname: firstName,
         lastname: lastName,
       },
@@ -31,6 +34,21 @@ const DriverSignup = () => {
         vehicleType: vehicleType,
       },
     };
+    // console.log("DriverData sent to backend:", DriverData);
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/drivers/register`,
+      DriverData
+    );
+
+    // console.log(response.status);
+    if (response.status === 200) {
+      const data = response.data;
+      setDriver(data.driver);
+      localStorage.setItem("token", data.token);
+      // console.log("Token is" + data.token);
+      navigate("/driver-home");
+    }
     setEmail("");
     setFirstName("");
     setLastName("");
@@ -68,7 +86,7 @@ const DriverSignup = () => {
           }}
         >
           <h3 className="text-lg w-full  font-medium mb-2">
-            What's our Captain's name
+            What's our Driver's name
           </h3>
           <div className="flex gap-4 mb-7">
             <input
