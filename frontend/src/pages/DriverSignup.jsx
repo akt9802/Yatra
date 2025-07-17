@@ -195,7 +195,7 @@ const DriverSignup = () => {
         </form>
         <p className="text-center">
           Already have a account?{" "}
-          <Link to="/captain-login" className="text-blue-600">
+          <Link to="/driver-login" className="text-blue-600">
             Login here
           </Link>
         </p>
