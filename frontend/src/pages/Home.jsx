@@ -23,7 +23,7 @@ function Home() {
   const [vehiclePanel, setVehiclePanel] = useState(false);
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
   const [vehicleFound, setVehicleFound] = useState(0);
-  const [waitingForDriver, setWaitingForDriver] = useState(false)
+  const [waitingForDriver, _setWaitingForDriver] = useState(false)
 
   const submitHandler = async (e) => {
     e.preventDefault();

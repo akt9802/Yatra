@@ -10,6 +10,7 @@ import UserProtectWrapper from "./pages/UserProtectWrapper.jsx";
 import UserLogout from "./pages/UserLogout.jsx";
 import DriverHome from "./pages/DriverHome.jsx";
 import DriverProtectWrapper from "./pages/DriverProtectWrapper.jsx";
+import Riding from "./pages/Riding.jsx";
 
 function App() {
   // useContext(UserDataContext)
@@ -18,6 +19,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Start />} />
         <Route path="/login" element={<UserLogin />} />
+
+        <Route path="/riding" element={<Riding />} />
         <Route path="/signup" element={<UserSignup />} />
         <Route path="/driver-login" element={<DriverLogin />} />
         <Route path="/driver-signup" element={<DriverSignup />} />
