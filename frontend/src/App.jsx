@@ -11,6 +11,8 @@ import UserLogout from "./pages/UserLogout.jsx";
 import DriverHome from "./pages/DriverHome.jsx";
 import DriverProtectWrapper from "./pages/DriverProtectWrapper.jsx";
 import Riding from "./pages/Riding.jsx";
+import DriverRiding from "./pages/DriverRiding.jsx";
+import "remixicon/fonts/remixicon.css";
 
 function App() {
   // useContext(UserDataContext)
@@ -24,6 +26,7 @@ function App() {
         <Route path="/signup" element={<UserSignup />} />
         <Route path="/driver-login" element={<DriverLogin />} />
         <Route path="/driver-signup" element={<DriverSignup />} />
+        <Route path="/driver-riding" element={<DriverRiding />} />
         <Route
           path="/home"
           element={

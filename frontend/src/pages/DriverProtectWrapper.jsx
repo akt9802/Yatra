@@ -7,7 +7,7 @@ const DriverProtectWrapper = ({ children }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
-  const { driver, setDriver } = useContext(DriverDataContext);
+  const { _driver, setDriver } = useContext(DriverDataContext);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
