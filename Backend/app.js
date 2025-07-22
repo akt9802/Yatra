@@ -6,6 +6,8 @@ const app = express();
 const cookieParser = require('cookie-parser')
 const connectToDb = require('./db/db.js');
 
+const mapsRoutes = require('./routes/maps.routes.js')
+
 // importing routes
 const userRoutes = require('./routes/user.routes.js');
 const driverRoutes = require('./routes/driver.routes.js');
@@ -20,6 +22,7 @@ app.use(cookieParser())
 
 app.use('/users',userRoutes)
 app.use('/drivers',driverRoutes)
+app.use('/maps',mapsRoutes)
 
 
 
