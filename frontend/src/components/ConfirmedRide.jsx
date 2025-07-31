@@ -24,7 +24,7 @@ function ConfirmedRide(props) {
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Vikas Nagar, New-Delhi
+                {props.pickup}
               </p>
             </div>
           </div>
@@ -34,7 +34,7 @@ function ConfirmedRide(props) {
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Vikas Nagar, New-Delhi
+                {props.destination}
               </p>
             </div>
           </div>
@@ -42,7 +42,7 @@ function ConfirmedRide(props) {
           <div className="flex items-center gap-5 p-2">
             <i className="text-lg ri-money-rupee-circle-fill"></i>
             <div>
-              <h3 className="text-lg font-medium">₹ 193.00</h3>
+              <h3 className="text-lg font-medium">{props.fare[props.vehicleType]}</h3>
               <p className="text-sm -mt-1 text-gray-600">Cash Payment Only</p>
             </div>
           </div>
@@ -52,6 +52,7 @@ function ConfirmedRide(props) {
             props.setConfirmRidePanel(false);
             // props.vehiclePanel(false);
             props.setPanelOpen(false);
+            props.createRide()
         }} className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">
           Confirm
         </button>

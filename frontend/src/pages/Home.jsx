@@ -28,6 +28,8 @@ function Home() {
   const [pickupSuggestions, setPickupSuggestions] = useState([]);
   const [destinationSuggestions, setDestinationSuggestions] = useState([]);
   const [activeField, setActiveField] = useState(null);
+  const [fare,setFare] = useState({});
+  const [vehicleType,setVehicleType] = useState(null);
 
   const handlePickupChange = async (e) => {
     setPickup(e.target.value);
@@ -153,6 +155,40 @@ function Home() {
     },
     [waitingForDriver]
   );
+
+  async function findTrip(){
+    setVehiclePanel(true);
+    setPanelOpen(false);
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
+      {
+        params: { pickup, destination },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    setFare(response.data)
+  }
+
+  async function createRide() {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/create`,
+      {
+        pickup,
+        destination,
+        vehicleType,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log(response);
+    
+  }
+
   return (
     <div className="h-screen relative overflow-hidden">
       <div
@@ -204,7 +240,6 @@ function Home() {
                 setPickup(e.target.value);
                 handlePickupChange(e);
               }}
-              
               // onChange={handlePickupChange};
               onClick={() => {
                 setPanelOpen(true);
@@ -218,16 +253,19 @@ function Home() {
               value={destination}
               onChange={(e) => {
                 setDestination(e.target.value);
-                handleDestinationChange(e)
+                handleDestinationChange(e);
               }}
               onClick={() => {
                 setPanelOpen(true);
-                setActiveField('destination')
+                setActiveField("destination");
               }}
             />
           </form>
-          <button>
-            
+          <button
+            onClick={findTrip}
+            className="bg-black text-white px-4 py-2 rounded-lg mt-3 w-full"
+          >
+            Find Trip
           </button>
         </div>
         <div ref={panelRef} className=" bg-white  h-[0]">
@@ -253,6 +291,8 @@ function Home() {
         <VehiclePanel
           setConfirmRidePanel={setConfirmRidePanel}
           setVehiclePanel={setVehiclePanel}
+          fare={fare}
+          selectVehicle={setVehicleType}
         />
       </div>
       <div
@@ -265,6 +305,11 @@ function Home() {
           setVehicleFound={setVehicleFound}
           // setVehiclePanel={setVehiclePanel}
           // setPanelOpen={setPanelOpen}
+          createRide={createRide}
+          pickup={pickup}
+          destination={destination}
+          fare={fare}
+          vehicleType={vehicleType}
         />
       </div>
 
@@ -272,7 +317,14 @@ function Home() {
         ref={vehicleFoundRef}
         className="fixed w-full z-10 bottom-0 translate-y-full p-3 py-6 px-3 bg-white pt-12"
       >
-        <LookingForDriver setVehicleFound={setVehicleFound} />
+        <LookingForDriver
+          createRide={createRide}
+          pickup={pickup}
+          destination={destination}
+          fare={fare}
+          vehicleType={vehicleType}
+          setVehicleFound={setVehicleFound}
+        />
       </div>
 
       <div
