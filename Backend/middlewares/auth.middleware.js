@@ -2,7 +2,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const userModel = require("../models/user.model.js");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const blackListTokenModel = require("../models/blacklistToken.model.js");
 const driverModel = require("../models/driver.model.js");
