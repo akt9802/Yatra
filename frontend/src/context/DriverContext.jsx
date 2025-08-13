@@ -7,7 +7,7 @@ const DriverContext = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const updateDriver = (driverData) => {
+  const updatedriver = (driverData) => {
     setDriver(driverData);
   };
 
@@ -18,7 +18,7 @@ const DriverContext = ({ children }) => {
     setIsLoading,
     error,
     setError,
-    updateDriver,
+    updatedriver,
   };
 
   return (

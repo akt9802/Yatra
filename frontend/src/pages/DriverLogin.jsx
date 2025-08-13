@@ -8,31 +8,32 @@ function DriverLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const {driver, setDriver} = React.useContext(DriverDataContext);
+  const { driver, setDriver } = React.useContext(DriverDataContext);
   const navigate = useNavigate();
-
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    
+
     const driver = {
-      email : email,
-      password
-    }
+      email: email,
+      password,
+    };
     // console.log(driver);
-    
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/drivers/login`,driver);
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/drivers/login`,
+      driver
+    );
     // console.log("hello");
-    
-    // console.log(response);
-    
 
-    if(response.status === 200){
+    // console.log(response);
+
+    if (response.status === 200) {
       const data = response.data;
-      setDriver(data.driver)
-      localStorage.setItem('token',data.token)
-      navigate('/driver-home')
+      setDriver(data.driver);
+      // console.log(data.driver);
+      localStorage.setItem("token", data.token);
+      navigate("/driver-home");
     }
 
     setEmail("");
