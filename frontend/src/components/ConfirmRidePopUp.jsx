@@ -1,99 +1,107 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function ConfirmRidePopUp(props) {
-  const [opt,setOtp] = useState('')
+const ConfirmRidePopUp = (props) => {
+  const [otp, setOtp] = useState("");
+  const navigate = useNavigate();
 
-  const submitHandler = (e) => {
+  const submitHander = async (e) => {
     e.preventDefault();
+
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/rides/start-ride`,
+      {
+        params: {
+          rideId: props.ride._id,
+          otp: otp,
+        },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      props.setConfirmRidePopupPanel(false);
+      props.setRidePopupPanel(false);
+      navigate("/driver-riding", { state: { ride: props.ride } });
+    }
   };
   return (
     <div>
       <h5
+        className="p-1 text-center w-[93%] absolute top-0"
         onClick={() => {
-          //   props.setConfirmRidePanel(false);
-          props.setConfirmRidePopUpPanel(false);
+          props.setRidePopupPanel(false);
         }}
-        className="absolute top-2 left-1/2 -translate-x-1/2 text-center w-[90%]"
       >
-        <i className="text-gray-500 ri-arrow-down-wide-line text-2xl"></i>
+        <i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
       </h5>
-      <h2 className="text-2xl font-bold mb-5 mt-2">
+      <h3 className="text-2xl font-semibold mb-5">
         Confirm this ride to Start
-      </h2>
-
-      <div className="flex items-center justify-between p-3 bg-yellow-400 rounded-lg">
+      </h3>
+      <div className="flex items-center justify-between p-3 border-2 border-yellow-400 rounded-lg mt-4">
         <div className="flex items-center gap-3 ">
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
-            className="h-10 w-10 rounded-full bg-white border-black border-1"
+            className="h-12 rounded-full object-cover w-12"
+            src="https://i.pinimg.com/236x/af/26/28/af26280b0ca305be47df0b799ed1b12b.jpg"
             alt=""
           />
-          <h2 className="text-lg font-semibold">Aman Kumar</h2>
+          <h2 className="text-lg font-medium capitalize">
+            {props.ride?.user.fullname.firstname}
+          </h2>
         </div>
-        <h5 className="text-lg font-semibold">2.2 Km</h5>
+        <h5 className="text-lg font-semibold">2.2 KM</h5>
       </div>
-
-      <div className="flex flex-col gap-2 justify-between items-center">
+      <div className="flex gap-2 justify-between flex-col items-center">
         <div className="w-full mt-5">
-          <div className="flex items-center gap-5 p-2 border-gray-600 border-b-2">
+          <div className="flex items-center gap-5 p-3 border-b-2">
+            <i className="ri-map-pin-user-fill"></i>
+            <div>
+              <h3 className="text-lg font-medium">562/11-A</h3>
+              <p className="text-sm -mt-1 text-gray-600">
+                {props.ride?.pickup}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-5 p-3 border-b-2">
             <i className="text-lg ri-map-pin-2-fill"></i>
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Vikas Nagar, New-Delhi
+                {props.ride?.destination}
               </p>
             </div>
           </div>
-
-          <div className="flex items-center gap-5 p-2 border-gray-600 border-b-2">
-            <i className="text-lg ri-map-pin-2-fill"></i>
+          <div className="flex items-center gap-5 p-3">
+            <i className="ri-currency-line"></i>
             <div>
-              <h3 className="text-lg font-medium">562/11-A</h3>
-              <p className="text-sm -mt-1 text-gray-600">
-                Vikas Nagar, New-Delhi
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-5 p-2">
-            <i className="text-lg ri-money-rupee-circle-fill"></i>
-            <div>
-              <h3 className="text-lg font-medium">₹ 193.00</h3>
-              <p className="text-sm -mt-1 text-gray-600">Cash Payment Only</p>
+              <h3 className="text-lg font-medium">₹{props.ride?.fare} </h3>
+              <p className="text-sm -mt-1 text-gray-600">Cash Cash</p>
             </div>
           </div>
         </div>
 
         <div className="mt-6 w-full">
-          <form
-            onSubmit={(e) => {
-              submitHandler(e);
-            }}
-          >
+          <form onSubmit={submitHander}>
             <input
-            value={opt}
-              onChange={(e) => {
-                setOtp(e.target.value)
-              }}
-              className="bg-[#eee] px-6 py-4 font-mono text-base rounded-lg w-full mt-3"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
               type="text"
+              className="bg-[#eee] px-6 py-4 font-mono text-lg rounded-lg w-full mt-3"
               placeholder="Enter OTP"
             />
-            <Link
-              to="/driver-riding"
-              onClick={() => {}}
-              className="w-full flex justify-center mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg"
-            >
+
+            <button className="w-full mt-5 text-lg flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg">
               Confirm
-            </Link>
+            </button>
             <button
               onClick={() => {
-                //   props.setRidePopupPanel(false);
-                props.setConfirmRidePopUpPanel(false);
+                props.setConfirmRidePopupPanel(false);
                 props.setRidePopupPanel(false);
               }}
-              className="w-full mt-1 bg-red-500 text-white font-semibold p-2 rounded-lg"
+              className="w-full mt-2 bg-red-600 text-lg text-white font-semibold p-3 rounded-lg"
             >
               Cancel
             </button>
@@ -102,6 +110,6 @@ function ConfirmRidePopUp(props) {
       </div>
     </div>
   );
-}
+};
 
 export default ConfirmRidePopUp;
