@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import FinishRide from "../components/FinishRide";
+import LiveTracking from "../components/LiveTracking.jsx"
 function DriverRiding() {
   const [finishRidePanel, setFinishRidePanel] = useState(false);
   const finishRidePanelRef = useRef(null);
@@ -45,37 +46,32 @@ function DriverRiding() {
         </Link>
       </div>
 
-      <div className="h-4/5">
-        <img
-          className="h-full w-full object-cover"
-          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-          alt=""
-        />
-      </div>
-
       <div
-        className="h-1/5 p-6 flex items-center justify-between relative bg-yellow-400"
+        className="h-1/5 p-6 flex items-center justify-between relative bg-yellow-400 pt-10"
         onClick={() => {
           setFinishRidePanel(true);
         }}
       >
         <h5
-          className="p-1 text-center w-[93%] absolute top-0 "
+          className="p-1 text-center w-[90%] absolute top-0"
           onClick={() => {}}
         >
-          <i className="text-3xl text-black font-semibold ri-arrow-up-wide-line"></i>
+          <i className="text-3xl text-gray-800 ri-arrow-up-wide-line"></i>
         </h5>
-        <h4 className="text-xl font-semibold">4KM away</h4>
-        <button className="bg-green-600 text-white font-semibold p-3 px-10 rounded-lg">
-          Complete ride
+        <h4 className="text-xl font-semibold">{"4 KM away"}</h4>
+        <button className=" bg-green-600 text-white font-semibold p-3 px-10 rounded-lg">
+          Complete Ride
         </button>
       </div>
-
       <div
         ref={finishRidePanelRef}
-        className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10 pt-12"
+        className="fixed w-full z-[500] bottom-0 translate-y-full bg-white px-3 py-10 pt-12"
       >
-        <FinishRide  setFinishRidePanel ={setFinishRidePanel} />
+        <FinishRide ride={rideData} setFinishRidePanel={setFinishRidePanel} />
+      </div>
+
+      <div className="h-screen fixed w-screen top-0 z-[-1]">
+        <LiveTracking />
       </div>
     </div>
   );
